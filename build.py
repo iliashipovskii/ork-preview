@@ -631,6 +631,12 @@ def main():
     # Пустой .nojekyll: GitHub Pages иначе прогоняет всё через Jekyll
     # и выкидывает папки/файлы, начинающиеся с подчёркивания.
     open(os.path.join(HERE, '.nojekyll'), 'w').close()
+
+    # Демо не должно попасть в поиск: и robots.txt, и meta robots на каждой странице.
+    with open(os.path.join(HERE, 'robots.txt'), 'w', encoding='utf-8', newline='\n') as f:
+        f.write('# Демо-прототип, в поиске ему делать нечего.\n'
+                'User-agent: *\n'
+                'Disallow: /\n')
     print('готово')
 
 
