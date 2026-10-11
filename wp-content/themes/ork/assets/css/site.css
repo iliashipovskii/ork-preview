@@ -1,0 +1,2306 @@
+/* ==========================================================================
+   ООО «ОРК» — стили темы.
+   Источник правды по цветам и шрифтам — theme.json: переменные ниже
+   ссылаются на его пресеты, чтобы правка была ровно в одном месте.
+   @font-face WordPress генерирует сам из theme.json.
+   ========================================================================== */
+
+:root {
+	/* Цвета. HEX временные — ждём точные значения от заказчика. */
+	--primary: var(--wp--preset--color--primary, #1e5945);         /* RAL 6016 */
+	--primary-light: var(--wp--preset--color--primary-light, #4c9141); /* RAL 6017 */
+	--primary-dark: var(--wp--preset--color--primary-dark, #0f2a21);
+	--gray: var(--wp--preset--color--gray, #d7d7d7);               /* RAL 7035 */
+	--gray-line: #c9cdca;
+	--gray-bg: var(--wp--preset--color--gray-bg, #f2f4f3);
+	--accent: var(--wp--preset--color--accent, #8a6642);           /* RAL 1011 */
+	--text: var(--wp--preset--color--text, #1c211e);
+	--text-muted: var(--wp--preset--color--text-muted, #4a504c);
+	--text-soft: #3b413d;
+	--on-dark: #ffffff;
+	--on-dark-muted: #dde7e1;
+	--on-dark-dim: #c9d6ce;
+
+	--hero-gradient: linear-gradient(135deg, #0b2a20 0%, #1e5945 55%, #3d8a46 100%);
+
+	/* Сетка и ритм */
+	--container: 1240px;
+	--gutter: 32px;
+	--section-y: 104px;
+	--radius: 8px;
+
+	/* Шрифты */
+	--font-text: var(--wp--preset--font-family--text, 'Onest', system-ui, sans-serif);
+	--font-head: var(--wp--preset--font-family--head, 'Unbounded', sans-serif);
+}
+
+*,
+*::before,
+*::after {
+	box-sizing: border-box;
+}
+
+html {
+	scroll-behavior: smooth;
+	/* чтобы якоря не уезжали под липкое подменю */
+	scroll-padding-top: 72px;
+	-webkit-text-size-adjust: 100%;
+}
+
+body {
+	margin: 0;
+	font-family: var(--font-text);
+	font-size: 17px;
+	line-height: 1.55;
+	color: var(--text);
+	background: #fff;
+	overflow-x: hidden;
+}
+
+img,
+svg {
+	max-width: 100%;
+}
+
+h1,
+h2,
+h3 {
+	font-family: var(--font-head);
+	font-weight: 700;
+	margin: 0;
+}
+
+a {
+	color: var(--primary);
+}
+
+a:hover {
+	color: var(--primary-light);
+}
+
+:focus-visible {
+	outline: 2px solid var(--primary-light);
+	outline-offset: 3px;
+}
+
+.container {
+	max-width: var(--container);
+	margin: 0 auto;
+	padding: 0 var(--gutter);
+}
+
+.visually-hidden {
+	position: absolute;
+	width: 1px;
+	height: 1px;
+	margin: -1px;
+	padding: 0;
+	overflow: hidden;
+	clip: rect(0 0 0 0);
+	white-space: nowrap;
+	border: 0;
+}
+
+/* --- Полоса «это демо» ---------------------------------------------------- */
+
+.demo-note {
+	position: relative;
+	z-index: 6;
+	background: #081d16;
+	color: #a9bdb2;
+	font-size: 13px;
+	line-height: 1.4;
+	text-align: center;
+	padding: 9px 16px;
+}
+
+.demo-note b {
+	color: #d8e4dd;
+	font-weight: 600;
+}
+
+/* --- Шапка ---------------------------------------------------------------- */
+
+.site-hero {
+	position: relative;
+	/* Без overflow: hidden. Картинка и затемнение внутри позиционированы
+	   по inset и за границы героя не выходят, а клип резал выпадающее меню:
+	   на десктопе — подменю «Каталога», на телефоне — выезжающую панель. */
+	z-index: 12;
+	color: var(--on-dark);
+	background: var(--hero-gradient);
+}
+
+.site-hero__image {
+	position: absolute;
+	/* Во всю ширину баннера: раньше картинка занимала 62% справа и давала
+	   резкую вертикальную границу посередине экрана. Читаемость текста
+	   обеспечивает затемнение ниже, а не обрезка фотографии. */
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.site-hero__scrim {
+	position: absolute;
+	inset: 0;
+	/* Плавное затемнение слева направо, без резкой границы. Справа тоже
+	   не прозрачное: иначе светлая фотография спорит с белым текстом. */
+	background:
+		linear-gradient(90deg, rgba(11, 42, 32, 0.96) 0%, rgba(11, 42, 32, 0.88) 38%, rgba(11, 42, 32, 0.6) 72%, rgba(11, 42, 32, 0.45) 100%),
+		linear-gradient(180deg, rgba(11, 42, 32, 0.5) 0%, rgba(11, 42, 32, 0) 35%);
+}
+
+.site-hero__inner {
+	position: relative;
+}
+
+.site-header {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: space-between;
+	gap: 16px 24px;
+	min-height: 84px;
+	border-bottom: 1px solid rgba(255, 255, 255, 0.15);
+}
+
+.logo {
+	display: flex;
+	align-items: center;
+	gap: 12px;
+	color: var(--on-dark);
+	text-decoration: none;
+}
+
+/* Фирменный знак: три рамки с кругом, квадратом и треугольником.
+   Одноцветный, красится через currentColor. */
+.logo__symbol {
+	display: block;
+	height: 22px;
+	width: auto;
+	flex: none;
+}
+
+.logo__mark {
+	font-family: var(--font-head);
+	font-weight: 700;
+	font-size: 24px;
+	letter-spacing: 0.06em;
+}
+
+.logo__tagline {
+	font-size: 13px;
+	line-height: 1.3;
+	color: var(--on-dark-dim);
+	max-width: 140px;
+	border-left: 1px solid rgba(255, 255, 255, 0.3);
+	padding-left: 12px;
+}
+
+.site-nav {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px 22px;
+	font-size: 14px;
+	font-weight: 500;
+}
+
+.site-nav a {
+	color: var(--on-dark);
+	text-decoration: none;
+	padding: 12px 0;
+	border-bottom: 2px solid transparent;
+}
+
+.site-nav a:hover {
+	color: var(--on-dark);
+	border-bottom-color: rgba(255, 255, 255, 0.5);
+}
+
+.site-nav a[aria-current='page'] {
+	border-bottom-color: var(--on-dark);
+}
+
+.header-phone {
+	color: var(--on-dark);
+	text-decoration: none;
+	font-weight: 700;
+	font-size: 17px;
+	white-space: nowrap;
+}
+
+/* Кнопки шапки — только на телефоне */
+.header-actions {
+	display: none;
+	gap: 2px;
+}
+
+.header-actions a,
+.header-actions button {
+	width: 44px;
+	height: 44px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	color: var(--on-dark);
+	background: none;
+	border: 0;
+	padding: 0;
+	cursor: pointer;
+}
+
+/* --- Герой главной -------------------------------------------------------- */
+
+.hero-body {
+	/* Только вертикальный: сокращённый padding затирал боковые
+	   отступы .container, и текст упирался в край экрана. */
+	padding-block: 120px 150px;
+	display: flex;
+	flex-direction: column;
+	gap: 28px;
+}
+
+.hero-body h1 {
+	font-size: clamp(30px, 4.2vw, 60px);
+	line-height: 1.06;
+	max-width: 640px;
+}
+
+.hero-body__lead {
+	margin: 0;
+	font-size: 20px;
+	line-height: 1.55;
+	color: var(--on-dark-muted);
+	max-width: 520px;
+}
+
+.hero-links {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 32px;
+	margin-top: 12px;
+	font-size: 18px;
+	font-weight: 600;
+}
+
+.hero-links a {
+	color: var(--on-dark);
+	text-decoration: none;
+	border-bottom: 1px solid var(--on-dark);
+	padding-bottom: 4px;
+}
+
+.hero-links a:hover {
+	color: var(--on-dark);
+}
+
+.hero-links a.is-secondary {
+	border-bottom-color: rgba(255, 255, 255, 0.5);
+}
+
+/* Кнопки-ссылки в герое на телефоне */
+.hero-cta {
+	display: none;
+	flex-direction: column;
+	gap: 10px;
+	margin-top: 6px;
+}
+
+.hero-cta a {
+	text-align: center;
+	text-decoration: none;
+	border-radius: var(--radius);
+	padding: 15px;
+	font-weight: 700;
+}
+
+.hero-cta__call {
+	background: #fff;
+	color: #123d2f;
+}
+
+.hero-cta__mail {
+	border: 2px solid rgba(255, 255, 255, 0.7);
+	color: var(--on-dark);
+	font-weight: 600;
+	padding: 13px;
+}
+
+/* --- Герой страницы раздела ---------------------------------------------- */
+
+.page-hero .site-hero__scrim {
+	background:
+		linear-gradient(90deg, rgba(11, 42, 32, 0.95) 0%, rgba(11, 42, 32, 0.85) 45%, rgba(11, 42, 32, 0.6) 100%),
+		linear-gradient(180deg, rgba(11, 42, 32, 0.55) 0%, rgba(11, 42, 32, 0) 40%);
+}
+
+.page-hero__body {
+	padding-block: 64px 104px;
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+}
+
+/* Герой без вводного абзаца (Контакты) — ниже обычного. */
+.page-hero__body--short {
+	padding-top: 48px;
+	padding-bottom: 80px;
+}
+
+.page-hero__body h1 {
+	font-size: clamp(30px, 3.9vw, 54px);
+	line-height: 1.08;
+	max-width: 640px;
+}
+
+.page-hero__lead {
+	margin: 0;
+	font-size: 19px;
+	line-height: 1.55;
+	color: var(--on-dark-muted);
+	max-width: 560px;
+}
+
+.breadcrumbs {
+	font-size: 14px;
+	color: var(--on-dark-dim);
+}
+
+.breadcrumbs a {
+	color: var(--on-dark-dim);
+}
+
+/* --- Цифры на главной ----------------------------------------------------- */
+
+.facts {
+	border-bottom: 1px solid var(--gray);
+}
+
+.facts__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(220px, 1fr));
+}
+
+.facts__item {
+	padding: 36px 24px;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+	border-left: 1px solid var(--gray);
+}
+
+.facts__item:first-child {
+	padding-left: 0;
+	border-left: 0;
+}
+
+.facts__value {
+	font-family: var(--font-head);
+	font-weight: 700;
+	font-size: 32px;
+	color: var(--primary);
+}
+
+.facts__label {
+	font-size: 15px;
+	color: var(--text-muted);
+}
+
+/* --- Карточки разделов ---------------------------------------------------- */
+
+.products {
+	padding: var(--section-y) 0 96px;
+}
+
+.products__head {
+	margin-bottom: 40px;
+	font-size: clamp(24px, 2.8vw, 40px);
+}
+
+.products__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(270px, 1fr));
+	gap: 24px;
+}
+
+.product-card {
+	display: flex;
+	flex-direction: column;
+	text-decoration: none;
+	color: var(--text);
+	height: 100%;
+}
+
+.product-card img {
+	width: 100%;
+	height: 240px;
+	object-fit: cover;
+	border-radius: var(--radius);
+}
+
+.product-card__body {
+	padding: 20px 0;
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	flex: 1;
+}
+
+.product-card__title {
+	font-family: var(--font-head);
+	font-weight: 500;
+	font-size: 19px;
+	line-height: 1.25;
+}
+
+.product-card__desc {
+	font-size: 15px;
+	color: var(--text-muted);
+	line-height: 1.5;
+}
+
+.product-card__more {
+	/* auto прижимает ссылку вниз: у карточек разная длина названия,
+	   а «Подробнее ›» должно быть на одной линии. */
+	margin-top: auto;
+	padding-top: 6px;
+	font-weight: 600;
+	color: var(--primary);
+}
+
+.product-card:hover .product-card__more {
+	color: var(--primary-light);
+}
+
+/* --- Блок о производстве -------------------------------------------------- */
+
+.production {
+	position: relative;
+	overflow: hidden;
+	color: var(--on-dark);
+	background: var(--primary-dark);
+}
+
+.production__image {
+	position: absolute;
+	inset: 0;
+	width: 100%;
+	height: 100%;
+	object-fit: cover;
+}
+
+.production__scrim {
+	position: absolute;
+	inset: 0;
+	background: linear-gradient(90deg, rgba(10, 30, 23, 0.95) 0%, rgba(10, 30, 23, 0.75) 45%, rgba(10, 30, 23, 0.1) 100%);
+}
+
+.production__body {
+	position: relative;
+	padding-block: 120px;
+	display: flex;
+	flex-direction: column;
+	gap: 22px;
+}
+
+.production__body h2 {
+	font-size: clamp(22px, 2.8vw, 40px);
+	line-height: 1.15;
+	max-width: 560px;
+}
+
+.production__body p {
+	margin: 0;
+	font-size: 18px;
+	line-height: 1.65;
+	color: #d6dfda;
+	max-width: 540px;
+}
+
+.production__facts {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	gap: 32px;
+	max-width: 640px;
+	margin-top: 12px;
+	border-top: 1px solid rgba(255, 255, 255, 0.25);
+	padding-top: 24px;
+	font-size: 15px;
+	line-height: 1.5;
+	color: #d6dfda;
+}
+
+.production__facts strong {
+	display: block;
+	color: var(--on-dark);
+	font-size: 17px;
+}
+
+/* --- Секция категории / модели ------------------------------------------- */
+
+.catalog-section {
+	padding: 112px 0 96px;
+	background: #fff;
+}
+
+/* Чередование фона задаёт генератор/шаблон, а не nth-child:
+   в WordPress порядок секций зависит от данных. */
+.is-alt {
+	background: var(--gray-bg);
+}
+
+.catalog-section__inner {
+	display: flex;
+	flex-direction: column;
+	gap: 40px;
+}
+
+.catalog-section__head {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	gap: 16px;
+}
+
+.catalog-section__head h2 {
+	font-size: clamp(26px, 3.4vw, 44px);
+	line-height: 1.1;
+}
+
+.catalog-section__desc {
+	margin: 0;
+	font-size: 19px;
+	line-height: 1.55;
+	color: var(--text-soft);
+	max-width: 720px;
+}
+
+.kicker {
+	font-size: 15px;
+	color: var(--accent);
+	font-weight: 600;
+}
+
+.inline-links {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 32px;
+	font-size: 17px;
+	font-weight: 600;
+}
+
+.inline-links a {
+	text-decoration: none;
+	/* 44px — минимальная зона нажатия на телефоне. */
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+}
+
+.media {
+	border-radius: var(--radius);
+	overflow: hidden;
+}
+
+.media img {
+	display: block;
+	width: 100%;
+	height: 560px;
+	object-fit: cover;
+}
+
+/* Заглушка там, где фото ещё нет */
+.media--placeholder {
+	height: 520px;
+	background: linear-gradient(180deg, #f4f6f5, #dde4e0);
+	border: 1px solid var(--gray);
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	padding: 24px;
+	font-size: 16px;
+	color: var(--text-muted);
+}
+
+.media--placeholder em {
+	display: block;
+	margin-top: 4px;
+	font-style: normal;
+	font-size: 14px;
+	opacity: 0.75;
+}
+
+/* Чтобы заглушки-иллюстрации читались как место под фото, а не как «поплыло». */
+.media img,
+.product-card img {
+	background: var(--gray-bg);
+}
+
+.specs {
+	display: grid;
+	grid-template-columns: repeat(3, minmax(0, 1fr));
+	border-top: 1px solid var(--gray-line);
+}
+
+.specs--4 {
+	grid-template-columns: repeat(4, minmax(0, 1fr));
+}
+
+.specs__item {
+	padding: 24px 24px 0 0;
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.specs__key {
+	font-size: 14px;
+	color: var(--text-muted);
+}
+
+.specs__value {
+	font-size: 18px;
+	font-weight: 600;
+}
+
+/* --- Липкое подменю категорий -------------------------------------------- */
+
+.subnav {
+	position: sticky;
+	top: 0;
+	z-index: 5;
+	background: #fff;
+	border-bottom: 1px solid var(--gray);
+}
+
+.subnav__list {
+	display: flex;
+	gap: 36px;
+	overflow-x: auto;
+	font-size: 15px;
+	font-weight: 500;
+	scrollbar-width: none;
+}
+
+.subnav__list::-webkit-scrollbar {
+	display: none;
+}
+
+.subnav__list a {
+	color: var(--text-soft);
+	text-decoration: none;
+	padding: 20px 0 18px;
+	border-bottom: 2px solid transparent;
+	white-space: nowrap;
+}
+
+.subnav__list a:hover {
+	color: var(--primary);
+}
+
+.subnav__list a.is-active {
+	color: var(--primary);
+	border-bottom-color: var(--primary);
+}
+
+/* --- Переключатель моделей ------------------------------------------------ */
+
+.model-tabs {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 8px 32px;
+	border-bottom: 1px solid var(--gray-line);
+}
+
+.model-tabs button {
+	background: none;
+	border: 0;
+	border-bottom: 2px solid transparent;
+	margin-bottom: -1px;
+	padding: 12px 4px;
+	min-height: 44px;
+	font-family: inherit;
+	font-size: 17px;
+	font-weight: 500;
+	color: var(--text-muted);
+	cursor: pointer;
+}
+
+.model-tabs button[aria-selected='true'] {
+	border-bottom-color: var(--primary);
+	font-weight: 700;
+	color: var(--primary);
+}
+
+.model {
+	display: flex;
+	flex-direction: column;
+	gap: 36px;
+}
+
+.model[hidden] {
+	display: none;
+}
+
+.model__title {
+	font-family: var(--font-head);
+	font-weight: 500;
+	font-size: 24px;
+	text-align: center;
+}
+
+.model__head {
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	text-align: center;
+	gap: 10px;
+}
+
+/* --- CTA ------------------------------------------------------------------ */
+
+.cta {
+	background: var(--primary);
+	color: var(--on-dark);
+	padding: 88px 0;
+}
+
+.cta--slim {
+	padding: 80px 0;
+}
+
+.cta__inner {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 32px;
+	align-items: center;
+	justify-content: space-between;
+}
+
+.cta__text {
+	flex: 1 1 460px;
+	display: flex;
+	flex-direction: column;
+	gap: 12px;
+}
+
+.cta__text h2 {
+	font-size: clamp(22px, 2.4vw, 34px);
+	line-height: 1.15;
+}
+
+.cta--slim .cta__text h2 {
+	font-size: clamp(22px, 2.1vw, 30px);
+	line-height: 1.2;
+}
+
+.cta__text p {
+	margin: 0;
+	font-size: 18px;
+	line-height: 1.5;
+	color: var(--on-dark-muted);
+}
+
+.cta__contacts {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	font-family: var(--font-head);
+	font-weight: 500;
+}
+
+.cta__contacts a {
+	color: var(--on-dark);
+	text-decoration: none;
+	word-break: break-word;
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+}
+
+.cta__phone {
+	font-size: clamp(22px, 2vw, 28px);
+}
+
+.cta__mail {
+	font-size: clamp(17px, 1.6vw, 22px);
+}
+
+/* --- Контакты ------------------------------------------------------------- */
+
+.contacts {
+	padding: 0 0 96px;
+	background: linear-gradient(180deg, var(--gray-bg), #fff);
+}
+
+.contacts__grid {
+	margin-top: -40px;
+	display: flex;
+	flex-wrap: wrap;
+	gap: 32px;
+}
+
+.contacts__card {
+	flex: 1 1 440px;
+	background: #fff;
+	border: 1px solid var(--gray);
+	border-radius: var(--radius);
+	padding: 44px;
+	display: flex;
+	flex-direction: column;
+	gap: 30px;
+}
+
+.contacts__lead {
+	margin: 0;
+	font-size: 18px;
+	line-height: 1.55;
+	color: var(--text-soft);
+}
+
+.contacts__field {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.contacts__label {
+	font-size: 13px;
+	color: var(--text-muted);
+	text-transform: uppercase;
+	letter-spacing: 0.1em;
+}
+
+.contacts__phone {
+	font-family: var(--font-head);
+	font-weight: 700;
+	font-size: clamp(24px, 3vw, 32px);
+	text-decoration: none;
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+}
+
+.contacts__mail {
+	font-family: var(--font-head);
+	font-weight: 500;
+	font-size: clamp(18px, 2.2vw, 24px);
+	word-break: break-word;
+	display: inline-flex;
+	align-items: center;
+	min-height: 44px;
+}
+
+.contacts__pair {
+	display: grid;
+	grid-template-columns: repeat(2, minmax(0, 1fr));
+	gap: 24px;
+}
+
+.contacts__value {
+	font-size: 17px;
+	line-height: 1.5;
+}
+
+.contacts__legal {
+	font-size: 14px;
+	color: var(--text-muted);
+	line-height: 1.7;
+	border-top: 4px solid var(--accent);
+	padding-top: 18px;
+}
+
+/* Заглушка Яндекс.Карты — рисованная, настоящую вставим на WP */
+.map {
+	flex: 1.2 1 520px;
+	min-height: 600px;
+	position: relative;
+	border: 1px solid var(--gray);
+	border-radius: var(--radius);
+	overflow: hidden;
+	background:
+		repeating-linear-gradient(0deg, rgba(30, 89, 69, 0.07) 0 1px, transparent 1px 64px),
+		repeating-linear-gradient(90deg, rgba(30, 89, 69, 0.07) 0 1px, transparent 1px 64px),
+		linear-gradient(135deg, #eef2ef, #dce5df);
+}
+
+.map__road {
+	position: absolute;
+	top: 18%;
+	left: -10%;
+	width: 130%;
+	height: 26px;
+	background: #fff;
+	transform: rotate(-12deg);
+	box-shadow: 0 0 0 2px var(--gray);
+}
+
+.map__road--v {
+	top: -10%;
+	left: 58%;
+	width: 22px;
+	height: 130%;
+	transform: rotate(8deg);
+}
+
+.map__park {
+	position: absolute;
+	bottom: 12%;
+	left: 8%;
+	width: 34%;
+	height: 22%;
+	border-radius: 40%;
+	background: linear-gradient(135deg, #b9d8a8, #8fc07e);
+	opacity: 0.6;
+}
+
+.map__pin {
+	position: absolute;
+	top: 40%;
+	left: 52%;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 10px;
+}
+
+.map__pin-label {
+	background: #fff;
+	padding: 8px 12px;
+	border: 1px solid var(--gray-line);
+	border-radius: 4px;
+	font-weight: 700;
+	font-size: 14px;
+	white-space: nowrap;
+}
+
+.map__note {
+	position: absolute;
+	right: 20px;
+	bottom: 20px;
+	background: rgba(255, 255, 255, 0.9);
+	padding: 8px 12px;
+	border-radius: var(--radius);
+	font-size: 13px;
+	color: var(--text-muted);
+}
+
+/* --- Пустой раздел («Запчасти») ------------------------------------------- */
+
+.empty-section {
+	padding: 112px 0;
+}
+
+.empty-section__inner {
+	max-width: 720px;
+	margin: 0 auto;
+	text-align: center;
+	display: flex;
+	flex-direction: column;
+	gap: 18px;
+}
+
+.empty-section h2 {
+	font-size: clamp(24px, 3vw, 36px);
+	line-height: 1.15;
+}
+
+.empty-section p {
+	margin: 0;
+	font-size: 18px;
+	line-height: 1.6;
+	color: var(--text-soft);
+}
+
+/* --- Подвал --------------------------------------------------------------- */
+
+.site-footer {
+	background: var(--primary-dark);
+	color: var(--on-dark-dim);
+	padding: 56px 0;
+	font-size: 15px;
+	line-height: 1.7;
+}
+
+.site-footer__inner {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 24px 48px;
+	justify-content: space-between;
+}
+
+.site-footer__brand {
+	display: flex;
+	flex-direction: column;
+	gap: 6px;
+}
+
+.site-footer a {
+	color: inherit;
+	text-decoration: none;
+}
+
+.site-footer a:hover {
+	color: var(--on-dark);
+}
+
+.site-footer__mark {
+	font-family: var(--font-head);
+	font-weight: 700;
+	color: var(--on-dark);
+}
+
+/* --- Мягкое появление блоков при скролле --------------------------------- */
+
+/* Прячем только если JS есть — иначе блоки остались бы невидимыми навсегда. */
+.js .reveal {
+	opacity: 0;
+	transform: translateY(16px);
+	transition: opacity 0.5s ease, transform 0.5s ease;
+}
+
+.js .reveal.is-visible {
+	opacity: 1;
+	transform: none;
+}
+
+/* ==========================================================================
+   Адаптив
+   ========================================================================== */
+
+@media (max-width: 1100px) {
+	.site-nav {
+		gap: 8px 20px;
+		font-size: 14px;
+	}
+
+	.logo__tagline {
+		display: none;
+	}
+}
+
+@media (max-width: 900px) {
+	:root {
+		/* В макете было 16px, но с заголовком в 30px текст упирается
+		   в край экрана, а шапка выглядит зажатой. 20px дают воздух
+		   и при этом не съедают ширину строки. */
+		--gutter: 20px;
+		--section-y: 48px;
+	}
+
+	.site-header {
+		min-height: 64px;
+		border-bottom: 0;
+		flex-wrap: nowrap;
+		/* Иначе выезжающая панель отсчитывает top:100% от всего героя. */
+		position: relative;
+		z-index: 11;
+	}
+
+
+	.header-phone {
+		display: none;
+	}
+
+	.header-actions {
+		display: flex;
+		margin-right: -10px;
+	}
+
+	/* Меню разделов выезжает панелью */
+	.site-nav {
+		display: none;
+		position: absolute;
+		left: 0;
+		right: 0;
+		top: 100%;
+		z-index: 10;
+		flex-direction: column;
+		gap: 0;
+		padding: 8px var(--gutter) 20px;
+		background: var(--primary-dark);
+		border-top: 1px solid rgba(255, 255, 255, 0.15);
+		font-size: 17px;
+	}
+
+	.site-header.is-open .site-nav {
+		display: flex;
+	}
+
+	.site-nav a {
+		padding: 14px 0;
+		border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+	}
+
+	.site-nav a[aria-current='page'] {
+		color: #9fd3ab;
+		border-bottom-color: rgba(255, 255, 255, 0.12);
+	}
+
+	.site-hero__scrim,
+	.page-hero .site-hero__scrim {
+		background: linear-gradient(180deg, rgba(11, 42, 32, 0.72) 0%, rgba(11, 42, 32, 0.95) 70%);
+	}
+
+	.hero-body {
+		padding-block: 104px 44px;
+		gap: 16px;
+	}
+
+	.hero-body__lead {
+		font-size: 16px;
+	}
+
+	.hero-links {
+		display: none;
+	}
+
+	.hero-cta {
+		display: flex;
+	}
+
+	.page-hero__body {
+		padding-block: 40px 56px;
+		gap: 12px;
+	}
+
+	.page-hero__lead {
+		font-size: 16px;
+	}
+
+	/* Четыре цифры в столбик — слишком длинно, ставим 2×2 как в макете. */
+	.facts__grid {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.facts__item {
+		padding: 20px 12px;
+	}
+
+	.facts__item:nth-child(odd) {
+		padding-left: 0;
+		border-left: 0;
+	}
+
+	.facts__item:nth-child(n + 3) {
+		border-top: 1px solid var(--gray);
+	}
+
+	.facts__value {
+		font-size: 24px;
+	}
+
+	.facts__label {
+		font-size: 13px;
+	}
+
+	.catalog-section {
+		padding: 56px 0 48px;
+	}
+
+	.catalog-section__inner {
+		gap: 28px;
+	}
+
+	.catalog-section__desc {
+		font-size: 17px;
+	}
+
+	.media img {
+		height: 280px;
+	}
+
+	.media--placeholder {
+		height: 240px;
+	}
+
+	.specs,
+	.specs--4 {
+		grid-template-columns: repeat(2, minmax(0, 1fr));
+	}
+
+	.specs__item {
+		padding: 18px 16px 0 0;
+	}
+
+	/* В макете было 180px, чтобы сверху читалось фото цеха, но вживую
+	   получается провал пустоты. 110px хватает, чтобы фон был виден. */
+	.production__body {
+		padding-block: 110px 44px;
+	}
+
+	.production__facts {
+		grid-template-columns: 1fr;
+		gap: 16px;
+	}
+
+	.cta,
+	.cta--slim {
+		padding: 48px 0;
+	}
+
+	.contacts__card {
+		padding: 24px;
+	}
+
+	/* На десктопе карточка нарочно наезжает на градиент героя, но на
+	   телефоне герой короткий и текст липнет к зелёному — убираем наезд. */
+	.contacts__grid {
+		margin-top: 20px;
+	}
+
+	.map {
+		min-height: 320px;
+	}
+
+	.empty-section {
+		padding: 56px 0;
+	}
+
+	.site-footer {
+		padding: 32px 0 40px;
+	}
+
+	.site-footer__inner {
+		flex-direction: column;
+		gap: 16px;
+	}
+
+	.products {
+		padding: 48px 0;
+	}
+}
+
+@media (max-width: 420px) {
+	.contacts__pair {
+		grid-template-columns: 1fr;
+	}
+
+	.specs,
+	.specs--4 {
+		grid-template-columns: 1fr;
+	}
+}
+
+@media (prefers-reduced-motion: reduce) {
+	html {
+		scroll-behavior: auto;
+	}
+
+	.js .reveal {
+		opacity: 1;
+		transform: none;
+		transition: none;
+	}
+}
+
+@media print {
+	.demo-note,
+	.subnav,
+	.header-actions {
+		display: none;
+	}
+}
+
+/* --- Уведомление о cookie (152-ФЗ) --------------------------------------- */
+/* Узкая полоса внизу: по требованиям заказчика — без затемнения и модалок. */
+
+.cookie-note {
+	position: fixed;
+	left: 0;
+	right: 0;
+	bottom: 0;
+	z-index: 20;
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	justify-content: center;
+	gap: 12px 24px;
+	padding: 14px var(--gutter);
+	background: var(--primary-dark);
+	color: #d6dfda;
+	font-size: 14px;
+	line-height: 1.5;
+}
+
+.cookie-note[hidden] {
+	display: none;
+}
+
+.cookie-note p {
+	margin: 0;
+	max-width: 820px;
+}
+
+.cookie-note a {
+	color: #fff;
+}
+
+.cookie-note button {
+	flex: none;
+	min-height: 40px;
+	padding: 8px 22px;
+	border: 1px solid rgba(255, 255, 255, 0.5);
+	border-radius: var(--radius);
+	background: none;
+	color: #fff;
+	font-family: inherit;
+	font-size: 15px;
+	font-weight: 600;
+	cursor: pointer;
+}
+
+.cookie-note button:hover {
+	background: rgba(255, 255, 255, 0.1);
+}
+
+@media (max-width: 900px) {
+	.cookie-note {
+		justify-content: flex-start;
+		font-size: 13px;
+	}
+}
+
+/* Шапка без героя: страница модели, 404. Просто тёмная полоса. */
+.site-hero--bar {
+	background: var(--primary-dark);
+}
+
+.site-hero--bar .site-header {
+	border-bottom: 0;
+}
+
+/* Хлебные крошки на светлом фоне (страница модели). */
+.breadcrumbs--light,
+.breadcrumbs--light a {
+	color: var(--text-muted);
+}
+
+.back-link {
+	margin: 0;
+	font-size: 17px;
+	font-weight: 600;
+}
+
+.back-link a {
+	text-decoration: none;
+}
+
+/* Виджет Яндекс.Карт занимает контейнер целиком. */
+.map--embed iframe {
+	display: block;
+	width: 100%;
+	height: 100%;
+	min-height: 600px;
+	border: 0;
+}
+
+@media (max-width: 900px) {
+	.map--embed iframe {
+		min-height: 320px;
+	}
+}
+
+/* --- Стыковка с разметкой WordPress -------------------------------------- */
+
+/* Ядро вставляет между блоками верхнего уровня отступ в block-gap (24px),
+   и между нашими секциями появлялись белые полосы. Вертикальные отступы
+   у секций свои, поэтому здесь обнуляем. Внутри контента (абзацы, списки)
+   стандартный ритм остаётся — правило бьёт только по корневому уровню. */
+.wp-site-blocks > * + * {
+	margin-block-start: 0;
+}
+
+/* Пустой <main> на страницах, где весь контент рисуют блоки темы. */
+.wp-site-blocks > main:empty {
+	display: none;
+}
+
+/* На телефоне контакты в подвале — это основной способ связи,
+   поэтому растягиваем их до полноценной зоны нажатия. */
+@media (max-width: 900px) {
+	.site-footer a {
+		display: inline-block;
+		padding: 12px 0;
+	}
+
+	.site-footer__inner > div {
+		line-height: 1.4;
+	}
+}
+
+/* --- Подкатегории и список моделей --------------------------------------- */
+
+/* Третий уровень: подкатегории внутри блока категории. */
+.subcategory {
+	display: flex;
+	flex-direction: column;
+	gap: 28px;
+	padding-top: 16px;
+	scroll-margin-top: 80px;
+}
+
+.subcategory + .subcategory {
+	border-top: 1px solid var(--gray-line);
+	padding-top: 48px;
+}
+
+.subcategory__title {
+	margin: 0;
+	text-align: center;
+	font-size: clamp(20px, 2.2vw, 28px);
+}
+
+.subcategory__desc {
+	margin: -16px auto 0;
+	max-width: 720px;
+	text-align: center;
+	font-size: 17px;
+	line-height: 1.55;
+	color: var(--text-soft);
+}
+
+/* Модели списком друг под другом — альтернатива вкладкам. */
+.model--stacked + .model--stacked {
+	border-top: 1px solid var(--gray-line);
+	padding-top: 44px;
+}
+
+@media (max-width: 900px) {
+	.subcategory + .subcategory,
+	.model--stacked + .model--stacked {
+		padding-top: 28px;
+	}
+}
+
+/* Контакты в выезжающем меню — только на телефоне. */
+.site-nav__contacts {
+	display: none;
+}
+
+@media (max-width: 900px) {
+	.site-nav__contacts {
+		display: flex;
+		flex-direction: column;
+		gap: 2px;
+		margin-top: 12px;
+		padding-top: 4px;
+	}
+
+	.site-nav__contacts a {
+		padding: 10px 0;
+		min-height: 44px;
+		display: flex;
+		align-items: center;
+		border-bottom: 0;
+		color: #9fd3ab;
+		font-weight: 600;
+	}
+}
+
+/* --- Новости: листинг и одиночная запись --------------------------------- */
+
+.news {
+	padding: var(--section-y) 0 96px;
+}
+
+/* Переключатель категорий — текст с подчёркиванием, без пилюль. */
+.news-filter {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px 28px;
+	margin-bottom: 40px;
+	padding-bottom: 16px;
+	border-bottom: 1px solid var(--gray);
+	font-size: 16px;
+	font-weight: 500;
+}
+
+.news-filter a {
+	color: var(--text-soft);
+	text-decoration: none;
+	padding: 10px 0;
+	min-height: 44px;
+	display: inline-flex;
+	align-items: center;
+	border-bottom: 2px solid transparent;
+	margin-bottom: -18px;
+}
+
+.news-filter a.is-active {
+	color: var(--primary);
+	border-bottom-color: var(--primary);
+}
+
+.news-grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(280px, 1fr));
+	gap: 32px 24px;
+}
+
+.news-card {
+	display: flex;
+	flex-direction: column;
+	text-decoration: none;
+	color: var(--text);
+	height: 100%;
+}
+
+.news-card__media {
+	display: block;
+	border-radius: var(--radius);
+	overflow: hidden;
+	background: var(--gray-bg);
+}
+
+.news-card__media img {
+	display: block;
+	width: 100%;
+	height: 210px;
+	object-fit: cover;
+}
+
+.news-card__stub {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 210px;
+	color: var(--text-muted);
+	font-size: 15px;
+}
+
+.news-card__body {
+	display: flex;
+	flex-direction: column;
+	gap: 8px;
+	padding: 18px 0 0;
+	flex: 1;
+}
+
+.news-card__kicker {
+	font-size: 13px;
+	font-weight: 600;
+	color: var(--accent);
+	text-transform: uppercase;
+	letter-spacing: 0.08em;
+}
+
+.news-card__title {
+	font-family: var(--font-head);
+	font-weight: 500;
+	font-size: 19px;
+	line-height: 1.25;
+}
+
+.news-card__desc {
+	font-size: 15px;
+	line-height: 1.5;
+	color: var(--text-muted);
+}
+
+.news-card__more {
+	margin-top: auto;
+	padding-top: 8px;
+	font-weight: 600;
+	color: var(--primary);
+}
+
+.news-card:hover .news-card__more {
+	color: var(--primary-light);
+}
+
+.news-single {
+	padding: 64px 0 96px;
+}
+
+.news-single__inner {
+	max-width: 820px;
+	display: flex;
+	flex-direction: column;
+	gap: 24px;
+}
+
+.news-single__content {
+	font-size: 18px;
+	line-height: 1.7;
+}
+
+.news-single__content > * {
+	margin: 0 0 20px;
+}
+
+.news-single__content h2 {
+	font-size: clamp(22px, 2.4vw, 30px);
+	margin-top: 36px;
+}
+
+@media (max-width: 900px) {
+	.news {
+		padding: 40px 0 48px;
+	}
+
+	.news-grid {
+		gap: 28px 16px;
+	}
+
+	.news-single {
+		padding: 32px 0 48px;
+	}
+
+	.news-single__content {
+		font-size: 17px;
+	}
+}
+
+/* --- Выпадающее подменю («Каталог», «Сервис») ---------------------------- */
+
+.site-nav__group {
+	position: relative;
+	display: inline-flex;
+	align-items: center;
+}
+
+/* Стрелка-указатель, что внутри есть вложенные пункты. */
+.site-nav__group > a::after {
+	content: '';
+	display: inline-block;
+	width: 6px;
+	height: 6px;
+	margin-left: 7px;
+	vertical-align: 2px;
+	border-right: 1.5px solid currentColor;
+	border-bottom: 1.5px solid currentColor;
+	transform: rotate(45deg) translateY(-2px);
+	opacity: 0.7;
+}
+
+.site-nav__sub {
+	position: absolute;
+	top: 100%;
+	left: -16px;
+	z-index: 15;
+	display: none;
+	flex-direction: column;
+	min-width: 230px;
+	padding: 8px 0;
+	background: var(--primary-dark);
+	border: 1px solid rgba(255, 255, 255, 0.14);
+	border-radius: var(--radius);
+}
+
+/* Без JS: открывается наведением и с клавиатуры. */
+.site-nav__group:hover .site-nav__sub,
+.site-nav__group:focus-within .site-nav__sub {
+	display: flex;
+}
+
+.site-nav__sub a {
+	padding: 10px 18px;
+	border-bottom: 0;
+	white-space: nowrap;
+	font-size: 14px;
+}
+
+.site-nav__sub a:hover,
+.site-nav__sub a:focus-visible {
+	background: rgba(255, 255, 255, 0.08);
+	border-bottom: 0;
+}
+
+.site-nav__sub a[aria-current='page'] {
+	color: #9fd3ab;
+	border-bottom: 0;
+}
+
+@media (max-width: 900px) {
+	/* На телефоне выпадашки не нужны: вложенные пункты просто показаны
+	   с отступом — до нужного раздела один тап, а не два. */
+	.site-nav__group {
+		display: flex;
+		flex-direction: column;
+		align-items: stretch;
+		position: static;
+	}
+
+	.site-nav__group > a::after {
+		display: none;
+	}
+
+	.site-nav__sub {
+		position: static;
+		display: flex;
+		min-width: 0;
+		padding: 0 0 0 16px;
+		background: none;
+		border: 0;
+		border-radius: 0;
+	}
+
+	.site-nav__sub a {
+		padding: 12px 0;
+		font-size: 15px;
+		color: var(--on-dark-dim);
+		border-bottom: 1px solid rgba(255, 255, 255, 0.12);
+	}
+
+	.site-nav__sub a:hover {
+		background: none;
+	}
+}
+
+/* --- Контент обычных страниц (О компании, Сервис, Монтаж) ---------------- */
+
+.entry-content {
+	padding: 72px 0 24px;
+}
+
+/* Текст читается в узкой колонке; блоки с собственным контейнером
+   (контакты, благодарности) исключены ниже. */
+.entry-content > * {
+	max-width: 820px;
+	margin-inline: auto;
+	padding-inline: var(--gutter);
+}
+
+.entry-content > * + * {
+	margin-top: 22px;
+}
+
+.entry-content h2 {
+	margin-top: 44px;
+	font-size: clamp(22px, 2.6vw, 32px);
+}
+
+.entry-content p,
+.entry-content li {
+	font-size: 18px;
+	line-height: 1.7;
+}
+
+.entry-content img {
+	border-radius: var(--radius);
+}
+
+.entry-content figure {
+	margin: 32px auto;
+}
+
+/* Блоки темы сами задают себе ширину и отступы. */
+.entry-content > .contacts,
+.entry-content > .thanks,
+.entry-content > .cta {
+	max-width: none;
+	padding-inline: 0;
+}
+
+/* --- Благодарности -------------------------------------------------------- */
+
+.thanks {
+	padding: 72px 0 96px;
+	background: var(--gray-bg);
+}
+
+.thanks__title {
+	margin-bottom: 32px;
+	text-align: center;
+	font-size: clamp(22px, 2.6vw, 32px);
+}
+
+.thanks__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(200px, 1fr));
+	gap: 24px;
+}
+
+.thanks__item {
+	display: block;
+	border: 1px solid var(--gray);
+	border-radius: var(--radius);
+	background: #fff;
+	overflow: hidden;
+}
+
+.thanks__item img {
+	display: block;
+	width: 100%;
+	height: 300px;
+	object-fit: contain;
+	padding: 12px;
+}
+
+.thanks__item--stub {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	text-align: center;
+	height: 300px;
+	padding: 24px;
+	font-size: 15px;
+	color: var(--text-muted);
+	background: linear-gradient(180deg, #fff, #f4f6f5);
+}
+
+@media (max-width: 900px) {
+	.entry-content {
+		padding: 40px 0 16px;
+	}
+
+	.entry-content p,
+	.entry-content li {
+		font-size: 17px;
+	}
+
+	.thanks {
+		padding: 40px 0 48px;
+	}
+
+	.thanks__item img,
+	.thanks__item--stub {
+		height: 220px;
+	}
+}
+
+/* --- Лайтбокс ------------------------------------------------------------ */
+
+.lightbox {
+	position: fixed;
+	inset: 0;
+	z-index: 100;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	gap: 8px;
+	padding: 24px;
+	background: rgba(8, 20, 16, 0.93);
+}
+
+.lightbox[hidden] {
+	display: none;
+}
+
+.is-lightbox-open {
+	overflow: hidden;
+}
+
+.lightbox__figure {
+	margin: 0;
+	display: flex;
+	flex-direction: column;
+	align-items: center;
+	gap: 12px;
+	max-width: 100%;
+	max-height: 100%;
+}
+
+.lightbox__figure img {
+	max-width: 100%;
+	max-height: calc(100vh - 120px);
+	object-fit: contain;
+	border-radius: var(--radius);
+	background: #fff;
+}
+
+.lightbox__figure figcaption {
+	color: #d6dfda;
+	font-size: 15px;
+	text-align: center;
+}
+
+.lightbox__close,
+.lightbox__nav {
+	flex: none;
+	width: 48px;
+	height: 48px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(255, 255, 255, 0.1);
+	border: 1px solid rgba(255, 255, 255, 0.25);
+	border-radius: var(--radius);
+	color: #fff;
+	font-size: 28px;
+	line-height: 1;
+	cursor: pointer;
+}
+
+.lightbox__close:hover,
+.lightbox__nav:hover {
+	background: rgba(255, 255, 255, 0.2);
+}
+
+.lightbox__close {
+	position: absolute;
+	top: 16px;
+	right: 16px;
+	font-size: 32px;
+}
+
+.lightbox__nav[hidden] {
+	display: none;
+}
+
+@media (max-width: 700px) {
+	.lightbox {
+		padding: 12px;
+	}
+
+	.lightbox__nav {
+		position: absolute;
+		bottom: 16px;
+	}
+
+	.lightbox__nav--prev {
+		left: 16px;
+	}
+
+	.lightbox__nav--next {
+		right: 16px;
+	}
+}
+
+/* --- Слайдер -------------------------------------------------------------
+   Прокрутка нативная, со scroll-snap: работает пальцем и колесом,
+   а без JS остаётся обычной горизонтальной лентой. */
+
+.slider {
+	position: relative;
+}
+
+.slider__track {
+	display: flex;
+	gap: 16px;
+	overflow-x: auto;
+	scroll-snap-type: x mandatory;
+	scrollbar-width: none;
+	border-radius: var(--radius);
+}
+
+.slider__track::-webkit-scrollbar {
+	display: none;
+}
+
+.slider__slide {
+	flex: 0 0 100%;
+	scroll-snap-align: start;
+	border-radius: var(--radius);
+	overflow: hidden;
+	background: var(--gray-bg);
+}
+
+.slider__slide img {
+	display: block;
+	width: 100%;
+	height: 520px;
+	object-fit: cover;
+}
+
+.slider__arrow {
+	position: absolute;
+	top: 50%;
+	transform: translateY(-50%);
+	width: 48px;
+	height: 48px;
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	background: rgba(255, 255, 255, 0.92);
+	border: 1px solid var(--gray);
+	border-radius: 50%;
+	color: var(--text);
+	font-size: 24px;
+	line-height: 1;
+	cursor: pointer;
+}
+
+.slider__arrow:hover {
+	background: #fff;
+}
+
+.slider__arrow--prev {
+	left: 12px;
+}
+
+.slider__arrow--next {
+	right: 12px;
+}
+
+.slider__dots {
+	display: flex;
+	justify-content: center;
+	gap: 8px;
+	margin-top: 16px;
+}
+
+.slider__dot {
+	width: 10px;
+	height: 10px;
+	padding: 0;
+	border: 1px solid var(--gray-line);
+	border-radius: 50%;
+	background: none;
+	cursor: pointer;
+}
+
+.slider__dot.is-active {
+	background: var(--primary);
+	border-color: var(--primary);
+}
+
+@media (max-width: 900px) {
+	.slider__slide img {
+		height: 260px;
+	}
+
+	.slider__arrow {
+		width: 40px;
+		height: 40px;
+		font-size: 20px;
+	}
+}
+
+/* --- Мета новостей, теги, карточки оборудования -------------------------- */
+
+.news-card__meta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: baseline;
+	gap: 4px 12px;
+	font-size: 13px;
+	color: var(--text-muted);
+}
+
+.news-card__meta time {
+	font-size: 13px;
+}
+
+.news-single__meta {
+	display: flex;
+	flex-wrap: wrap;
+	align-items: center;
+	gap: 10px 16px;
+	font-size: 15px;
+	color: var(--text-muted);
+}
+
+/* Теги — «полукатегории»: уточняют тему внутри рубрики. */
+.news-tags {
+	display: flex;
+	flex-wrap: wrap;
+	gap: 8px 16px;
+}
+
+.news-tag {
+	text-decoration: none;
+	font-weight: 500;
+	border-bottom: 1px solid currentColor;
+}
+
+.model-cards {
+	margin-top: 48px;
+	padding-top: 36px;
+	border-top: 1px solid var(--gray-line);
+}
+
+.model-cards__title {
+	margin-bottom: 24px;
+	font-size: clamp(20px, 2.2vw, 26px);
+}
+
+.model-cards__grid {
+	display: grid;
+	grid-template-columns: repeat(auto-fill, minmax(220px, 1fr));
+	gap: 24px;
+}
+
+.model-card {
+	display: flex;
+	flex-direction: column;
+	gap: 10px;
+	text-decoration: none;
+	color: var(--text);
+	height: 100%;
+}
+
+.model-card__media {
+	display: block;
+	border-radius: var(--radius);
+	overflow: hidden;
+	background: var(--gray-bg);
+}
+
+.model-card__media img {
+	display: block;
+	width: 100%;
+	height: 160px;
+	object-fit: cover;
+}
+
+.model-card__stub {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 160px;
+	color: var(--text-muted);
+	font-size: 14px;
+}
+
+.model-card__title {
+	font-family: var(--font-head);
+	font-weight: 500;
+	font-size: 17px;
+	line-height: 1.3;
+}
+
+.model-card__more {
+	margin-top: auto;
+	font-weight: 600;
+	color: var(--primary);
+}
+
+/* --- Подвал: выравнивание колонок ---------------------------------------- */
+
+/* Было space-between с разной шириной колонок — теперь равные колонки
+   с общей линией верха, чтобы строки стояли ровно. */
+.site-footer__inner {
+	display: grid;
+	grid-template-columns: repeat(auto-fit, minmax(190px, 1fr));
+	align-items: start;
+	gap: 28px 32px;
+}
+
+.site-footer__brand {
+	gap: 10px;
+}
+
+.site-footer__logo {
+	display: flex;
+	align-items: center;
+	gap: 10px;
+	color: var(--on-dark);
+}
+
+.site-footer__logo .logo__symbol {
+	height: 18px;
+}
+
+.site-footer__inner > div {
+	min-height: 48px;
+}
+
+@media (max-width: 900px) {
+	.site-footer__inner {
+		grid-template-columns: 1fr;
+		gap: 18px;
+	}
+
+	.site-footer__inner > div {
+		min-height: 0;
+	}
+}
+
+/* --- Пагинация ----------------------------------------------------------- */
+
+.pagination {
+	display: flex;
+	flex-wrap: wrap;
+	justify-content: center;
+	gap: 8px;
+	margin-top: 48px;
+}
+
+.pagination .page-numbers {
+	min-width: 44px;
+	min-height: 44px;
+	display: inline-flex;
+	align-items: center;
+	justify-content: center;
+	padding: 0 14px;
+	border: 1px solid var(--gray);
+	border-radius: var(--radius);
+	color: var(--text);
+	text-decoration: none;
+	font-weight: 500;
+}
+
+.pagination .page-numbers:hover {
+	border-color: var(--primary);
+	color: var(--primary);
+}
+
+.pagination .page-numbers.current {
+	background: var(--primary);
+	border-color: var(--primary);
+	color: #fff;
+}
+
+.pagination .page-numbers.dots {
+	border-color: transparent;
+}
+
+/* Благодарности: по одной карточке за раз и единый формат кадра, чтобы
+   лента не прыгала по высоте при перелистывании. */
+.thanks__body .slider__slide {
+	flex: 0 0 100%;
+	background: #fff;
+	border: 1px solid var(--gray);
+}
+
+.thanks__body .slider__slide img {
+	height: 440px;
+	object-fit: cover;
+}
+
+@media (max-width: 900px) {
+	.thanks__body .slider__slide img {
+		height: 260px;
+	}
+}
+
+/* Заглушка в карточке раздела, пока нет фотографии. */
+.product-card__stub {
+	display: flex;
+	align-items: center;
+	justify-content: center;
+	height: 240px;
+	border-radius: var(--radius);
+	background: var(--gray-bg);
+	color: var(--text-muted);
+	font-size: 15px;
+}
+
+/* --- Подвал всегда внизу -------------------------------------------------- */
+
+/* На коротких страницах (404, пустой раздел) подвал подтягивался вверх
+   под контент. Колонка на всю высоту экрана с auto-отступом у подвала
+   прижимает его к низу, не растягивая содержимое. */
+.wp-site-blocks {
+	display: flex;
+	flex-direction: column;
+	min-height: 100vh;
+}
+
+.wp-site-blocks > .site-footer {
+	margin-top: auto;
+}
+
+.demo-note-footer {
+	max-width: 1240px;
+	margin: 24px auto 0;
+	padding: 14px 32px 0;
+	border-top: 1px solid rgba(255, 255, 255, 0.15);
+	font-size: 13px;
+	line-height: 1.5;
+	color: #8fa79a;
+}
+
+@media (max-width: 900px) {
+	.demo-note-footer {
+		padding: 14px 20px 0;
+	}
+}
