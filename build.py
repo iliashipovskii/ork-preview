@@ -12,6 +12,7 @@
 """
 
 import os
+from datetime import date
 
 HERE = os.path.dirname(os.path.abspath(__file__))
 
@@ -238,6 +239,10 @@ def header(root, current):
 </a>
 <nav class="site-nav" id="site-nav" aria-label="Основное меню">
 {nav}
+<div class="site-nav__contacts">
+<a href="{PHONE_HREF}">{PHONE}</a>
+<a href="mailto:{MAIL}">{MAIL}</a>
+</div>
 </nav>
 <a class="header-phone" href="{PHONE_HREF}">{PHONE}</a>
 <div class="header-actions">
@@ -251,8 +256,8 @@ def footer(root):
     return f'''<footer class="site-footer">
 <div class="container site-footer__inner">
 <div class="site-footer__brand">
-<span class="site-footer__mark">ОРК</span>
-<span>© 2026 ООО «ОРК»</span>
+<span class="site-footer__logo">{LOGO_SVG}<span class="site-footer__mark">ОРК</span></span>
+<span>© {date.today().year} ООО «ОРК»</span>
 </div>
 <div>{ADDRESS}<br>{HOURS}</div>
 <div><a href="{PHONE_HREF}">{PHONE}</a><br><a href="mailto:{MAIL}">{MAIL}</a></div>
